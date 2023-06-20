@@ -2,8 +2,6 @@ package com.springPostgres.SpringPSQL.student;
 
 import java.time.LocalDate;
 
-//model
-
 public class Student {
     private int id;
     private String name;
