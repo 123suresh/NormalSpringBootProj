@@ -1,9 +1,28 @@
 package com.springPostgres.SpringPSQL.student;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
+//to connect to db
+
+@Entity
+@Table
+
+//Entity is for hybernate and table is for our database
+
 public class Student {
-    private int id;
+    @Id
+    @SequenceGenerator(
+            name="student_sequence",
+            sequenceName = "student_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "student_sequence"
+    )
+    private Integer id;
     private String name;
     private String email;
     private LocalDate dob;

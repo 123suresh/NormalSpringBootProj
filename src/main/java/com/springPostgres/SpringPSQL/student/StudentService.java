@@ -3,6 +3,7 @@
 
 package com.springPostgres.SpringPSQL.student;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -14,15 +15,15 @@ import java.util.List;
 @Service
 //@Service and @Component are same but more generic is @Service
 public class StudentService {
+
+    private final StudentRepository studentRepository;
+
+    @Autowired
+    public StudentService(StudentRepository studentRepository){
+        this.studentRepository = studentRepository;
+    }
+
     public List<Student> getStudents(){
-        return List.of(
-                new Student(
-                        1,
-                        "maria",
-                        "ff@gmail.com",
-                        LocalDate.of(2012, 4, 12),
-                        45
-                )
-        );
+        return studentRepository.findAll();
     }
 }
