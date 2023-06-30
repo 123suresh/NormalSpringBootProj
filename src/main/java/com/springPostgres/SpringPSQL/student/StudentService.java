@@ -3,12 +3,14 @@
 
 package com.springPostgres.SpringPSQL.student;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 //@Component
@@ -43,5 +45,37 @@ public class StudentService {
             throw new IllegalStateException("Student with id "+studentId+" does not exists");
         }
         studentRepository.deleteById(studentId);
+    }
+
+    //@Transactional helps us to manipulate without query as well
+    //also rollback query
+    //When we have this annotation entity goes into the manage state
+    @Transactional
+    public void updateStudent(Integer studentId, UpdateStudent updateStudent){
+        Optional<Student> studentOptional = studentRepository.findStudentById(studentId);
+        if(studentOptional.isEmpty()){
+            return;
+        }
+        studentOptional.get().setEmail(updateStudent.getEmail());
+        studentOptional.get().setName(updateStudent.getName());
+        studentRepository.save(studentOptional.get());
+//        boolean exists = studentRepository.existsById(studentId);
+//        Student student = studentRepository.findById(studentId)
+//                .orElseThrow(() -> new IllegalStateException(
+//                        "Student with id "+studentId+ " does not exists."
+//                ));
+//
+//        if(name != null && name.length() > 0 && !Objects.equals(updateStudent.getName(), name)){
+//            updateStudent.setName(name);
+//        }
+//
+//        if(email != null && email.length() > 0 && !Objects.equals(updateStudent.getEmail(), email)){
+//            Optional<Student> studentOptional = studentRepository
+//                    .findStudentByEmail(email);
+//            if(studentOptional.isPresent()){
+//                throw new IllegalStateException("Email already exists");
+//            }
+//            updateStudent.setEmail(email);
+//        }
     }
 }
